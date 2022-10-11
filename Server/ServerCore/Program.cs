@@ -6,6 +6,29 @@ namespace ServerCore
 {
     class Program
     {
+        static Listener _listener = new Listener();
+        static void OnAcceptHandler(Socket clientSocket)
+        {
+            try
+            {
+                // Recv
+                byte[] recvBuff = new byte[1024];
+                int recvBytes = clientSocket.Receive(recvBuff);
+                string recvData = Encoding.UTF8.GetString(recvBuff, 0, recvBytes);
+                Console.WriteLine($"[From Client] {recvData}");
+                // Send
+                byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to Server !");
+                clientSocket.Send(sendBuff);
+
+                // Close
+                clientSocket.Shutdown(SocketShutdown.Both);
+                clientSocket.Close();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }  
+        }
         static void Main(string[] args)
         {
             string host = Dns.GetHostName();
@@ -13,36 +36,11 @@ namespace ServerCore
             IPAddress ipAddr = ipHost.AddressList[0];
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
-            Socket listenSocket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
-            try
+            _listener.Init(endPoint, OnAcceptHandler);
+            Console.WriteLine("Listening...");
+            while(true)
             {
-                listenSocket.Bind(endPoint);
-                listenSocket.Listen(10);    // backlog : 최대 대기 수
-
-                while (true)
-                {
-                    Console.WriteLine("Listening...");
-
-                    Socket clientSocket = listenSocket.Accept();
-
-                    // Recv
-                    byte[] recvBuff = new byte[1024];
-                    int recvBytes = clientSocket.Receive(recvBuff);
-                    string recvData = Encoding.UTF8.GetString(recvBuff, 0, recvBytes);
-                    Console.WriteLine($"[From Client] {recvData}");
-                    // Send
-                    byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to Server !");
-                    clientSocket.Send(sendBuff);
-
-                    // Close
-                    clientSocket.Shutdown(SocketShutdown.Both);
-                    clientSocket.Close();
-                }
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.ToString());
+                ;
             }
         }
     }
