@@ -42,7 +42,6 @@ namespace ServerCore
         {
             if(args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
             {
-                // TODO
                 try
                 {
                     string recvData = Encoding.UTF8.GetString(args.Buffer, args.Offset, args.BytesTransferred);
@@ -56,7 +55,7 @@ namespace ServerCore
             }
             else
             {
-                // TODO Disconnect
+                Disconnect();
             }
         }
         #endregion
