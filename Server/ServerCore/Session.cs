@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ServerCore
 {
-    abstract class Session
+    public abstract class Session
     {
         Socket? _socket;
         int _disconnected = 0;
@@ -57,7 +57,7 @@ namespace ServerCore
                 byte[] buff = _sendQueue.Dequeue();
                 _pendingList.Add(new ArraySegment<byte>(buff, 0, buff.Length));
             }
-            _sendArgs.BufferList = null;
+            _sendArgs.BufferList = _pendingList;
 
             bool pending = _socket.SendAsync(_sendArgs);
             if (pending == false)

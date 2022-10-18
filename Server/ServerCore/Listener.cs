@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ServerCore
 {
-    internal class Listener
+    public class Listener
     {
         private Socket? _listenSocket;
         Func<Session>? _sessionFactory;
@@ -16,7 +16,9 @@ namespace ServerCore
         {
             _listenSocket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             _sessionFactory += sessionFactory;
+
             _listenSocket.Bind(endPoint);
+            
             _listenSocket.Listen(10);    // backlog : 최대 대기 수
 
             SocketAsyncEventArgs args = new SocketAsyncEventArgs();
