@@ -6,6 +6,7 @@ C# 비동기 서버 프레임워크
 - <img src="https://img.shields.io/badge/C%23-00599C?style=flat&logo=Csharp&logoColor=white"/>
 
 # 코드 설명   
+- ServerCore를 Class Lib화하여 각 클라이언트와 서버에서 사용
 ## ServerCore(Lib)   
 - Engine 부분으로서 Client, Server Core 부분이며 Client, Server 통신 관련
 - Conntector.cs : 소켓 객체 생성(TCP 소켓), 포트 바인딩을 하며 Connect 관련 정의
