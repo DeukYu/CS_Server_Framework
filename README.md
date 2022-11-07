@@ -7,7 +7,8 @@ C# Task를 이용한 비동기 서버 프레임워크
 
 # 코드 설명   
 ## ServerCore   
-- Engine 부분으로서 Client, Server Core 부분입니다. 
-- Client, Server에서 필요한 부분들을 포함되어 있습니다.
+- Engine 부분으로서 Client, Server Core 부분이며 Client, Server 통신 관련
+- Conntector.cs : 소켓 객체 생성(TCP 소켓), 포트 바인딩을 하며 Connect 관련 정의
+- Listener.cs : 포트 Listening 시작하며 연결을 받아들이면서 소켓 생성(SocketAsync 사용)
 ## - Server   
 ## - Dummy   
