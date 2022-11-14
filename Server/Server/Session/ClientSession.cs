@@ -61,6 +61,7 @@ namespace Server
     }
     class ClientSession : PacketSession
     {
+        public int SessionId { get; set; }
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"OnConnected : {endPoint}");

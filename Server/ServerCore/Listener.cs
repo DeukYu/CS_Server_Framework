@@ -38,7 +38,7 @@ namespace ServerCore
             if (args.SocketError == SocketError.Success)
             {
                 Session session = _sessionFactory.Invoke();
-                session.Init(args.AcceptSocket);
+                session.Start(args.AcceptSocket);
                 session.OnConnected(args.AcceptSocket.RemoteEndPoint);
             }
             else

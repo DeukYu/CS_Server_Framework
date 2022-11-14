@@ -60,19 +60,11 @@ namespace DummyClient
         Req_PlayerInfo = 1,
         Res_PlayerInfo = 2,
     }
-    class ServerSession : Session
+    class ServerSession : PacketSession
     {
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"OnConnected : {endPoint}");
-            Req_PlayerInfo packet = new Req_PlayerInfo() { playerId = 1001 };
-            // Send
-            //for (int i = 0; i < 5; ++i)
-            {
-                ArraySegment<byte> s = packet.Write();
-                if (s != null)
-                    Send(s);
-            }
         }
 
         public override void OnDisconnected(EndPoint endPoint)
@@ -80,16 +72,14 @@ namespace DummyClient
             Console.WriteLine($"OnDisconnected : {endPoint}");
         }
 
-        public override int OnRecv(ArraySegment<byte> buffer)
+        public override void OnRecvPacket(ArraySegment<byte> buffer)
         {
-            string recvData = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count);
-            Console.WriteLine($"[From Server] {recvData}");
-            return buffer.Count;
+            PacketManager.Instance.OnRecvPacket(this, buffer);
         }
 
         public override void OnSend(int numOfBytes)
         {
-            Console.WriteLine($"Transferred bytes: {numOfBytes}");
+            //Console.WriteLine($"Transferred byte : {numOfBytes}");
         }
     }
 }
